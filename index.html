@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>ぞろぞろうーちー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,8 @@
 :root[data-theme="dark"]{ --panel:rgba(58,44,36,.94); --panel-line:#5d4838; --ink:#fff1df; --ink-soft:#d9c3ad; --btn:#ffd45c; --btn-ink:#3a2c24; }
 *,*::before,*::after{box-sizing:inherit}
 html{height:100%; scroll-padding-top:env(safe-area-inset-top,0px)}
-html,body{margin:0; height:100%; overflow:hidden; background:var(--sky); touch-action:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
+button{touch-action:manipulation}
+html,body{-webkit-text-size-adjust:100%; text-size-adjust:100%; margin:0; height:100%; overflow:hidden; background:var(--sky); touch-action:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
 body{font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif; color:var(--ink)}
 #stage{position:fixed; inset:0}
 canvas{display:block; width:100%; height:100%}
@@ -58,11 +59,21 @@ canvas{display:block; width:100%; height:100%}
 #line span{display:block; font-weight:500; font-size:10px; margin-top:4px; color:inherit; opacity:.7}
 #joy{position:fixed; width:120px; height:120px; margin:-60px 0 0 -60px; border-radius:50%; border:3px solid rgba(255,255,255,.8); background:rgba(255,255,255,.18); display:none; pointer-events:none}
 #knob{position:absolute; left:50%; top:50%; width:50px; height:50px; margin:-25px 0 0 -25px; border-radius:50%; background:rgba(255,255,255,.9); box-shadow:0 2px 0 rgba(75,53,39,.25)}
-.overlay{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 20px); background:rgba(191,230,218,.35); touch-action:auto}
+.overlay{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 20px); background:rgba(191,230,218,.35); touch-action:pan-x pan-y}
 .overlay.show{display:flex}
 #titleLogo{-webkit-user-select:none; user-select:none; -webkit-touch-callout:none; touch-action:none; cursor:default; transition:transform .3s}
 #titleLogo.hold{transform:scale(.97)}
 .card{background:var(--panel); border:2px solid var(--panel-line); border-radius:28px; padding:26px 24px 22px; width:min(360px,100%); text-align:center}
+#splashOv{flex-direction:column; background:linear-gradient(180deg,rgba(255,246,252,.15) 0%,rgba(255,236,246,.55) 100%)}
+.splash{text-align:center; margin-top:-8vh}
+.splashLogo{font-size:clamp(54px,17vw,84px)!important; color:#4b3527; text-shadow:0 4px 0 rgba(255,255,255,.85),0 8px 18px rgba(75,53,39,.25)}
+.splashLogo .zoro{font-size:.5em!important; letter-spacing:.3em!important}
+.splashLogo .uchi i{display:inline-block; font-style:normal; animation:hopL 1.6s ease-in-out infinite}
+.splashLogo .uchi i:nth-child(2){animation-delay:.12s} .splashLogo .uchi i:nth-child(3){animation-delay:.24s} .splashLogo .uchi i:nth-child(4){animation-delay:.36s}
+@keyframes hopL{0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-10px)}}
+.splashSub{margin:14px 0 34px; font-size:14px; font-weight:800; color:#6b5244; text-shadow:0 1px 0 rgba(255,255,255,.8)}
+#splashBtn{animation:pulseB 1.8s ease-in-out infinite; padding:16px 34px; font-size:18px}
+@keyframes pulseB{0%,100%{transform:scale(1)} 50%{transform:scale(1.06)}}
 h1{margin:0; font-weight:800; font-size:clamp(34px,10vw,48px); line-height:1.05; letter-spacing:.02em}
 h1 .zoro{display:block; font-size:.62em; color:var(--berry); letter-spacing:.18em}
 h2{margin:0 0 6px; font-size:28px; font-weight:800}
@@ -141,7 +152,14 @@ button.dbg{border-style:dashed; opacity:.75}
 <div id="banner"></div>
 <div id="prologOv"><button id="prologSkip">スキップ ▶▶</button><div id="prologTxt"></div><div id="prologDots"></div><div id="prologHint">タップでつぎへ</div></div>
 
-<div class="overlay show" id="titleOv">
+<div class="overlay show" id="splashOv">
+  <div class="splash">
+    <h1 class="splashLogo"><span class="zoro">ぞろぞろ</span><span class="uchi"><i>う</i><i>ー</i><i>ち</i><i>ー</i></span></h1>
+    <p class="splashSub">はぐれうーちーを集めて、スプカウをすくえ</p>
+    <button class="main" id="splashBtn">タップしてはじめる</button>
+  </div>
+</div>
+<div class="overlay" id="titleOv">
   <div class="card">
     <h1 id="titleLogo"><span class="zoro">ぞろぞろ</span>うーちー</h1>
     <p class="lead">王冠のうーちーを動かして、<br>なかまをゴールまで連れていこう。<br>くわしくはうーちーが教えるモー。</p>
@@ -221,6 +239,7 @@ button.dbg{border-style:dashed; opacity:.75}
     <p class="big" id="finalScore">0</p>
     <p class="muted" id="finalBest"></p>
     <p class="muted" id="endHint"></p>
+    <p id="endUnlock" style="display:none; margin:6px 0 2px; font-weight:800; color:#c98a1a"></p>
     <div class="btns"><button class="main" id="againBtn">さいしょから</button><button class="sub" id="finalMenu">メニューへ</button></div>
   </div>
 </div>
@@ -999,7 +1018,7 @@ function startStage(i,n){
   $('stName').textContent=Si.endless?(eLevel+'面'):Si.name;
   $('stInfo').textContent=Si.free?'なかまを好きなだけふやして、ぞろぞろ歩こう':Si.battle?('なかま '+n+'匹'):('せいげん時間 '+Si.time+'秒・難易度 ×'+(Si.mult||DIFF[i]||1).toFixed(1));
   $('stBtn').textContent=Si.free?'スタート':Si.endless?(eLevel+'面 スタート'):('ステージ'+(i+1)+' スタート');
-  $('dropBtns').style.display=Si.free?'flex':'none'; $('freeTools').style.display=Si.free?'flex':'none'; $('dropBtns').classList.remove('full'); $('startOv').classList.add('show');
+  $('dropBtns').style.display=Si.free?'flex':'none'; $('freeTools').style.display=Si.free?'flex':'none'; $('ftBoss').style.display=getUnlock()>=1?'':'none'; $('dropBtns').classList.remove('full'); $('startOv').classList.add('show');
 }
 function beginStage(){
   if(phase!=='waiting')return; sfx.init();
@@ -1028,6 +1047,8 @@ function finishStage(count,reason){
   $('resultOv').classList.add('show'); if(!autoNext)$(timeup?'retryBtn':'nextBtn').focus({preventScroll:true});
   if(!timeup)sfx.fanfare();
 }
+function getUnlock(){try{return +(localStorage.getItem('zorozoro-unlock')||0)||0;}catch(_){return 0;}}
+function setUnlock(v){try{localStorage.setItem('zorozoro-unlock',String(v));}catch(_){}}
 function showFinal(type){
   const t=total(), b=getBest(); if(t>b)setBest(t); sfx.hum(0);
   const names=['ひとりぼっちの脱出','おやすみ','おかえり'];
@@ -1036,11 +1057,14 @@ function showFinal(type){
   $('finalList').innerHTML=STAGES.slice(0,NST-1).map((s,i)=>{const r=scores[i]||{score:0};return (i+1)+' '+s.name+'　'+r.score.toLocaleString();}).join('<br>');
   $('finalScore').textContent=t.toLocaleString();
   $('finalBest').textContent=t>b?'ベスト更新！':('ベスト '+Math.max(b,t).toLocaleString());
+  {const before=getUnlock(), now=Math.max(before,type); setUnlock(now); const el=$('endUnlock');
+    if(now>before){el.style.display=''; el.textContent=now===2?(before<1?'じゆうモードで スプカウと 電脳スプカウを よべるようになった！':'じゆうモードで 電脳スプカウを よべるようになった！'):'じゆうモードで スプカウを よべるようになった！';}
+    else el.style.display='none';}
   $('resultOv').classList.remove('show'); $('finalOv').classList.add('show'); $('hud').style.display='none';
   phase='final';
 }
 function hideAll(){powRing.visible=powPillar.visible=false; powRing.material.opacity=powPillar.material.opacity=0; zzz.forEach(s=>s.visible=false); ['titleOv','resultOv','finalOv','pauseOv','overOv','startOv','debugOv'].forEach(id=>$(id).classList.remove('show'));}
-function toMenu(){hideAll(); paused=false; sfx.bgmStop(); sfx.hum(0); caption(''); clearTalk(); gameMode='story';
+function toMenu(){hideAll(); paused=false; sfx.bgmStop(); setTimeout(()=>{if(phase==='title')sfx.titleStart();},400); sfx.hum(0); caption(''); clearTalk(); gameMode='story';
   $('hud').style.display='none'; $('line').style.display='none'; $('dropBtns').style.display='none'; $('freeTools').style.display='none'; if(photo)setPhoto(false); $('banner').style.display='none';
   buildStage(0,4); phase='title'; bossG.visible=bossGlow.visible=false; showBestTitle(); $('titleOv').classList.add('show');}
 function gameOver(reason){
@@ -1158,7 +1182,7 @@ addEventListener('visibilitychange',()=>{if(document.hidden)setPause(true);});
 /* ---------- input ---------- */
 const joy=$('joy'),knob=$('knob'); let joyId=null,jx=0,jy=0; const JR=56; const ptrs=new Map(); let pinch0=0, zoom0=1;
 ['ftBoss','ftRing','ftJump','ftPhoto'].forEach(id=>$(id).addEventListener('pointerdown',e=>e.stopPropagation()));
-$('ftBoss').onclick=e=>{e.stopPropagation(); if(phase==='play')setFreeBoss((freeBoss+1)%3);};
+$('ftBoss').onclick=e=>{e.stopPropagation(); if(phase!=='play')return; const u=getUnlock(); if(u<1)return; setFreeBoss((freeBoss+1)%(u+1));};
 $('ftRing').onclick=e=>{e.stopPropagation(); if(phase!=='play')return; freeRing=!freeRing; $('ftRing').classList.toggle('on',freeRing); sfx.pon(freeRing?13:8); const f=followers(); if(f.length)say(f[Math.floor(Math.random()*f.length)],freeRing?'ring':'join',true);};
 $('ftJump').onclick=e=>{e.stopPropagation(); if(phase==='play')freeJump();};
 $('ftPhoto').onclick=e=>{e.stopPropagation(); if(phase==='play'||photo)setPhoto(!photo);};
@@ -1189,7 +1213,28 @@ const sfx=(function(){let ac=null,muted=false,master=null,humG=null;
   let bgmT=null,bgmNext=0,bgmStep=0,bgmRate=1;
   const MEL=[0,4,7,4, 9,7,4,2, 0,2,4,7, 4,2,0,-99, 2,4,9,7, 4,2,4,7, 9,12,9,7, 4,2,0,-99];
   const BAS=[0,0,0,0,-3,-3,-3,-3,5,5,5,5,7,7,7,7];
-  function sched(){ if(!ac)return; const stepDur=0.25/bgmRate;
+  // タイトル曲（H=のばす, R=休み）
+  const H=-98, R=-99;
+  const TMEL=[7,H,4,H, 0,H,2,4, 5,H,4,H, 2,H,R,R,
+              4,H,0,H, -3,H,0,2, 4,H,5,4, 2,H,H,R,
+              5,H,9,H, 7,H,5,4, 2,H,4,5, 7,H,H,R,
+              9,7,5,4, 2,H,7,H, 4,H,2,H, 0,H,H,R];
+  const TBAS=[0,0,-3,-7,-7,-10,-5,0];
+  const TCH=[[0,4,7],[0,4,7],[-3,0,4],[-7,-3,0],[-7,-3,0],[-10,-7,-3],[-1,2,7],[0,4,7]];
+  let song='game';
+  function sched(){ if(!ac)return;
+    if(song==='title'){const sd=0.3;
+      while(bgmNext<ac.currentTime+0.15){ const i=bgmStep%64, m=TMEL[i];
+        if(!muted){ if(m>-50){let n=1; while(TMEL[(i+n)%64]===H&&n<8)n++; const f=392*Math.pow(2,m/12);
+            note(f,bgmNext,sd*n*0.95,'triangle',0.05); note(f*2,bgmNext,sd*n*0.6,'sine',0.018);}
+          const h=(i/8)|0;
+          if(i%4===0)note(98*Math.pow(2,TBAS[h]/12),bgmNext,sd*3.6,'sine',0.085);
+          if(i%8===0)TCH[h].forEach(s=>note(196*Math.pow(2,s/12),bgmNext,sd*7.5,'sine',0.022));
+          if(i%2===1)note(5200,bgmNext,0.02,'square',0.004);
+          if(i%16===12)note(1568*Math.pow(2,[0,-3,2,4][(i/16)|0]/12),bgmNext,0.5,'sine',0.02);}
+        bgmNext+=sd; bgmStep++;}
+      return;}
+    const stepDur=0.25/bgmRate;
     while(bgmNext<ac.currentTime+0.12){ const i=bgmStep%32;
       if(!muted){ if(MEL[i]>-50)note(523.25*Math.pow(2,MEL[i]/12),bgmNext,stepDur*0.9,'triangle',0.045);
         if(i%2===0)note(130.81*Math.pow(2,BAS[(i/2)|0]/12),bgmNext,stepDur*1.6,'sine',0.07);
@@ -1215,12 +1260,23 @@ const sfx=(function(){let ac=null,muted=false,master=null,humG=null;
         [46,69.5].forEach(f=>{const o=ac.createOscillator(); o.type='sawtooth'; o.frequency.value=f; o.connect(lp); o.start();}); lp.connect(humG); humG.connect(master);}
       humG.gain.setTargetAtTime(muted?0:level*level*0.22,ac.currentTime,0.15);},
     beep(long){tone(long?1320:1760,long?0.45:0.09,'square',0.09);},
-    bgmStart(){if(!ac||bgmT)return; bgmNext=ac.currentTime+0.1; bgmStep=0; bgmT=setInterval(sched,25);},
+    bgmStart(){if(!ac)return; if(bgmT&&song==='game')return; if(bgmT){clearInterval(bgmT);bgmT=null;} song='game'; bgmNext=ac.currentTime+0.1; bgmStep=0; bgmT=setInterval(sched,25);},
+    titleStart(){if(!ac)return; if(bgmT&&song==='title')return; if(bgmT){clearInterval(bgmT);bgmT=null;} song='title'; bgmNext=ac.currentTime+0.15; bgmStep=0; bgmT=setInterval(sched,25);},
     bgmStop(){if(bgmT){clearInterval(bgmT);bgmT=null;}},
     bgmFast(f){bgmRate=f?1.6:1;},
     toggle(){muted=!muted;return muted;}};})();
 $('mute').onclick=e=>{e.stopPropagation(); const m=sfx.toggle(); $('mute').textContent=m?'×':'♪'; $('mute').setAttribute('aria-pressed',m);};
 
+/* ---------- zoom lock ---------- */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.preventDefault();},{passive:false});
+document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
+addEventListener('wheel',e=>{if(e.ctrlKey)e.preventDefault();},{passive:false});
+/* title bgm: start on first touch */
+document.addEventListener('pointerdown',()=>{sfx.init();},{capture:true});
+function leaveSplash(){if(!$('splashOv').classList.contains('show'))return; sfx.init(); sfx.titleStart(); sfx.goal(); $('splashOv').classList.remove('show'); $('titleOv').classList.add('show');}
+$('splashBtn').onclick=e=>{e.stopPropagation(); leaveSplash();};
+addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&$('splashOv').classList.contains('show')){e.preventDefault(); leaveSplash();}});
 /* ---------- boot ---------- */
 buildStage(0,4); phase='title'; bossG.visible=bossGlow.visible=false; showBestTitle();
 requestAnimationFrame(frame);
